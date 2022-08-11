@@ -33,10 +33,10 @@ async def on_ready():
     global cursor
     global db
     db = mysql.connector.connect(
-    host="10.0.0.34",
-    user="kelvin",
-    password="Dereus19@",
-    database="weerbot",
+    host="localhost",
+    user="USERNAME_HERE",
+    password="PASSWORD_HERE",
+    database="DB_HERE",
     auth_plugin="mysql_native_password"
     )
     cursor = db.cursor(buffered=True)
@@ -293,4 +293,4 @@ async def default_city_users(m, user_id, user_city):
         
     await m.channel.send("Je hebt je standaard stad succesvol gewijzigd naar: {}. Gebruik !weer om er gebruik van te maken.".format(user_city))
     
-bot.run('MTAwMjIwNTEwNTIyMDc2Nzc2Ng.G7Cpj4.oFgm9u3JMKQ10E1YM93DoJxZoy0UzHYq8z04QM')
+bot.run('TOKENHERE')
