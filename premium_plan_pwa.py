@@ -18,7 +18,7 @@ from threading import Timer
               
 # Weerbot NL General
 async def weather_NL_general(m, result_city):
-        api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
+        api_key = "API_KEY_HIER"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + str(result_city) + units
@@ -162,7 +162,7 @@ async def weather_NL_general(m, result_city):
             await m.channel.send(embed=embedVar)
 #DEFINING
 async def weather_NL_city(m, city_user_input, server_id_from_m):
-        api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
+        api_key = "API_KEY_HIER"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + city_user_input + units
@@ -304,7 +304,7 @@ async def weather_NL_city(m, city_user_input, server_id_from_m):
 async def weather_NL_city_tomorrow(m, city_user_input, weather_time_user_input):
     weather_time_user_input = (weather_time_user_input.lower())                     
     if "morgen" in weather_time_user_input:
-                api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
+                api_key = "API_KEY_HIER"
                 base_url = "http://api.openweathermap.org/data/2.5/forecast?"
                 complete_url = base_url + "appid=" + api_key + "&q=" + city_user_input
                 response = requests.get(complete_url)
@@ -511,13 +511,13 @@ async def weather_NL_city_tomorrow(m, city_user_input, weather_time_user_input):
 
 
                     # API info, URLS etc
-                    api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
+                    api_key = "API_KEY_HIER"
                     today_forecast_url = "http://api.openweathermap.org/data/2.5/forecast?"
                     city_name1 = ("Enschede")
                     units = ("&units=metric")
                     
     elif "voorspelling" in weather_time_user_input:
-                    api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
+                    api_key = "API_KEY_HIER"
                     base_url = "http://api.openweathermap.org/data/2.5/forecast?"
                     complete_url = base_url + "appid=" + api_key + "&q=" + city_user_input
                     response = requests.get(complete_url)
