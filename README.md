@@ -1,0 +1,2 @@
+# Weerbot
+Discord-weerbot
