@@ -1,15 +1,17 @@
-import discord
+import disnake
 import requests
-from discord.ext import commands
-import logging
 from re import M
 from datetime import date
 from datetime import datetime
 from statistics import mode
 import mysql.connector
 from threading import Timer
-              
+import matplotlib.pyplot as plt
 
+import os
+import time
+
+version_nummer =  ("2.0")
 
 #################################
 ########## Nederlands  ##########           
@@ -17,15 +19,15 @@ from threading import Timer
 
               
 # Weerbot NL General
-async def weather_NL_general(m, result_city):
-        api_key = "API_KEY_HIER"
+async def weather_NL_general(inter, result_city):
+        api_key = "API_KEY_HERE"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + str(result_city) + units
         response = requests.get(complete_url)
         response_api_json = response.json()        
         if response_api_json['cod'] == "404":
-            await m.channel.send("Er ging iets mis! Foutcode: Stad_niet_gevonden!")
+            await inter.response.send_message("Er ging iets mis! Foutcode: Stad_niet_gevonden!")
         else:
             y = response_api_json["main"]
             current_temp = y["temp"]
@@ -95,10 +97,10 @@ async def weather_NL_general(m, result_city):
 
                 
             if current_temp < 0:
-                color = 0x0096FF                    
+                color = 0x4793FF                    
                 x = ("Het vriest!")
             elif ((current_temp>= 0) and (current_temp < 18)):
-                color = 0x0096FF                    
+                color = 0x4793FF                    
                 x = (":cold_face: Ik zou een lange broek aantrekken! ")
             elif ((current_temp>= 18) and (current_temp< 30)):
                 color = 0xff0000
@@ -140,36 +142,39 @@ async def weather_NL_general(m, result_city):
                 windspeed_sentence = (":cloud_tornado: Zeer zware storm, orkaanachtig: Buitengewoon hoge golven, grote schade aan bossen/gebouwen. ")
             elif windspeed >= 118: 
                 windspeed_sentence = (":cloud_tornado: AAAH! RUN BITCH< RUUUUN. Orkaan: Lucht gevuld met schuim en water, verwoestingen aan gebouwen en bossen, extreem hoge golven. ")   
-                
-
-                                    
-   
-
-
-            embedVar = discord.Embed(title="Weer-info voor de stad: " +str (result_city), description="Info geleverd door Openweathermap. Premium plan!", color=color)
-            embedVar.add_field(name="Temperatuur", value=x + str (" ") + str (round(current_temp,1)) + str ("℃"), inline=False)     
-            embedVar.add_field(name="Windsnelheid", value=windspeed_sentence + str (round(windspeed, 2)) + str ("Km/u"), inline=False)     
             
-            embedVar.add_field(name="Druk", value=h + str (" ") + str (current_pressure) + str ("mbar"), inline=False)
-            embedVar.add_field(name="Vocht", value=d + str (" ") + str (current_humidity) + str ("%"), inline=False)
-            embedVar.set_image(url=ci)
-            embedVar.add_field(name="Regen", value=rain_or_dry, inline=False) 
-            embedVar.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrise_normal), inline=True) 
-            embedVar.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunset_normal), inline=True) 
             
-            embedVar.set_footer(text="By </Kelvin>",icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
+            embed = disnake.Embed(
+                title="Weer-info voor de stad: " +str (result_city),
+                description="Info geleverd door Openweathermap. Premium plan!",
+                color=color,
+            )
 
-            await m.channel.send(embed=embedVar)
+            embed.set_footer(
+                text="By </Kelvin>. Versie: " + str(version_nummer),
+                icon_url="https://kelvindereus.nl/CustomCPULOGO.png",
+            )
+            embed.add_field(name="Temperatuur", value=x + str (" ") + str (round(current_temp,1)) + str ("℃"), inline=False)    
+            embed.add_field(name="Windsnelheid", value=windspeed_sentence + str (round(windspeed, 2)) + str ("Km/u"), inline=False)   
+            embed.add_field(name="Druk", value=h + str (" ") + str (current_pressure) + str ("mbar"), inline=False)
+            embed.add_field(name="Vocht", value=d + str (" ") + str (current_humidity) + str ("%"), inline=False)
+            embed.set_image(url=ci)
+            embed.add_field(name="Regen", value=rain_or_dry, inline=False) 
+            embed.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrise_normal), inline=True) 
+            embed.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunset_normal), inline=True) 
+            
+            await inter.response.send_message(embed=embed)
+            
 #DEFINING
-async def weather_NL_city(m, city_user_input, server_id_from_m):
-        api_key = "API_KEY_HIER"
+async def weather_NL_city(inter, stadnaam):
+        api_key = "API_KEY_HERE"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
-        complete_url = base_url + "appid=" + api_key + "&q=" + city_user_input + units
+        complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam + units
         response = requests.get(complete_url)
         response_api_json = response.json()   
         if response_api_json['cod'] == "404":
-            await m.channel.send("Er ging iets mis! Foutcode: Stad_niet_gevonden!")
+            await inter.response.send_message("Er ging iets mis! Foutcode: Stad_niet_gevonden!")
         else:
             y = response_api_json["main"]
             current_temp = y["temp"]
@@ -239,10 +244,10 @@ async def weather_NL_city(m, city_user_input, server_id_from_m):
 
                 
             if current_temp < 0:
-                color = 0x0096FF                    
+                color = 0x4793FF                    
                 x = ("Het vriest!")
             elif ((current_temp>= 0) and (current_temp < 18)):
-                color = 0x0096FF                    
+                color = 0x4793FF                    
                 x = (":cold_face: Ik zou een lange broek aantrekken! ")
             elif ((current_temp>= 18) and (current_temp< 30)):
                 color = 0xff0000
@@ -284,34 +289,42 @@ async def weather_NL_city(m, city_user_input, server_id_from_m):
                 windspeed_sentence = (":cloud_tornado: Zeer zware storm, orkaanachtig: Buitengewoon hoge golven, grote schade aan bossen/gebouwen. ")
             elif windspeed >= 118: 
                 windspeed_sentence = (":cloud_tornado: AAAH! RUN BITCH< RUUUUN. Orkaan: Lucht gevuld met schuim en water, verwoestingen aan gebouwen en bossen, extreem hoge golven. ")   
-                
-
-            embedVar = discord.Embed(title="Weer-info voor de stad: " +str (city_user_input), description="Je maakt  gebruik van het premium plan!", color=color)
-            embedVar.add_field(name="Temperatuur", value=x + str (" ") + str (round(current_temp,1)) + str ("℃"), inline=False)     
-            embedVar.add_field(name="Windsnelheid", value=windspeed_sentence + str (round(windspeed, 2)) + str ("Km/u"), inline=False)     
+        
             
-            embedVar.add_field(name="Druk", value=h + str (" ") + str (current_pressure) + str ("mbar"), inline=False)
-            embedVar.add_field(name="Vocht", value=d + str (" ") + str (current_humidity) + str ("%"), inline=False)
-            embedVar.set_image(url=ci)
-            embedVar.add_field(name="Regen", value=rain_or_dry, inline=False) 
-            embedVar.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrise_normal), inline=True) 
-            embedVar.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunset_normal), inline=True) 
-            embedVar.set_footer(text="By </Kelvin>",icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
-            await m.channel.send(embed=embedVar)
+            
+            
+            embed = disnake.Embed(
+                title="Weer-info voor de stad: " +str (stadnaam),
+                description="Info geleverd door Openweathermap. Premium plan!",
+                color=color,
+            )
+
+            embed.set_footer(
+                text="By </Kelvin>. Versie: " + str(version_nummer),
+                icon_url="https://kelvindereus.nl/CustomCPULOGO.png",
+            )
+            embed.add_field(name="Temperatuur", value=x + str (" ") + str (round(current_temp,1)) + str ("℃"), inline=False)    
+            embed.add_field(name="Windsnelheid", value=windspeed_sentence + str (round(windspeed, 2)) + str ("Km/u"), inline=False)    
+            embed.add_field(name="Druk", value=h + str (" ") + str (current_pressure) + str ("mbar"), inline=False)
+            embed.add_field(name="Vocht", value=d + str (" ") + str (current_humidity) + str ("%"), inline=False)
+            embed.set_image(url=ci)
+            embed.add_field(name="Regen", value=rain_or_dry, inline=False) 
+            embed.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrise_normal), inline=True) 
+            embed.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunset_normal), inline=True) 
+            await inter.response.send_message(embed=embed)
+            
             
 
 
-async def weather_NL_city_tomorrow(m, city_user_input, weather_time_user_input):
-    weather_time_user_input = (weather_time_user_input.lower())                     
-    if "morgen" in weather_time_user_input:
-                api_key = "API_KEY_HIER"
+async def weather_NL_city_tomorrow(inter, stadnaam):
+                api_key = "API_KEY_HERE"
                 base_url = "http://api.openweathermap.org/data/2.5/forecast?"
-                complete_url = base_url + "appid=" + api_key + "&q=" + city_user_input
+                complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam
                 response = requests.get(complete_url)
                 data = response.json()
                 
                 if data['cod'] == "404":
-                    await m.channel.send("Er ging iets mis! Foutcode: Stad_niet_gevonden!")
+                    await inter.response.send_message("Er ging iets mis! Foutcode: Stad_niet_gevonden!")
                 
                 else:
                     tempdag0tijd0 = data['list'][2]['main']['temp'] - 273.15
@@ -453,90 +466,189 @@ async def weather_NL_city_tomorrow(m, city_user_input, weather_time_user_input):
                         warning_weather_max = ("Geen waarschuwingen momenteel!")
 
 
-                    if averagetempdag1 > 18:
-                        color = 0xff0000
-                        at = (":hot_face: Trek je korte broek maar aan!")
+                    if averagetempdag1 < 18:
+                        color = 0x4793FF
+                        at = (":hot_face: Trek je korte broek maar aan! ")
                     else:
                         color = 0x0096FF
-                        at = (":cold_face: Trek je lange broek maar aan!")
-                    if averagefeeltempdag1 > 18:
-                        aft = (":hot_face: Trek je korte broek maar aan!")
+                        at = (":cold_face: Trek je lange broek maar aan! ")
+                    if averagefeeltempdag1 >= 18:
+                        aft = (":hot_face: Trek je korte broek maar aan! ")
                     else:
-                        aft = (":cold_face: Trek je lange broek maar aan!")    
+                        aft = (":cold_face: Trek je lange broek maar aan! ")    
 
                     if ((averagewindspeeddag1>= 0) and (averagewindspeeddag1< 2)):
-                        windspeed_sentence = (":leaves: Windstil: Rook stijgt recht op uit schoorstenen.")
+                        windspeed_sentence = (":leaves: Windstil: Rook stijgt recht op uit schoorstenen. ")
                     elif ((averagewindspeeddag1>= 2) and (averagewindspeeddag1< 5)):
-                        windspeed_sentence = (":leaves: Zwakke wind, flauw en stil: Windrichting af te leiden uit rookpluimen.")
+                        windspeed_sentence = (":leaves: Zwakke wind, flauw en stil: Windrichting af te leiden uit rookpluimen. ")
                     elif ((averagewindspeeddag1>= 5) and (averagewindspeeddag1< 11)):
-                        windspeed_sentence = (":leaves: Zwak, flauwe koelte: Wind voelbaar in gezicht, bladeren bewegen licht.")    
+                        windspeed_sentence = (":leaves: Zwak, flauwe koelte: Wind voelbaar in gezicht, bladeren bewegen licht. ")    
                     elif ((averagewindspeeddag1>= 11) and (averagewindspeeddag1< 20)):
-                        windspeed_sentence = (":leaves: Matige wind, lichte koelte: Bladeren bewegen steeds, vlaggen wapperen.")
+                        windspeed_sentence = (":leaves: Matige wind, lichte koelte: Bladeren bewegen steeds, vlaggen wapperen. ")
                     elif ((averagewindspeeddag1>= 20) and (averagewindspeeddag1< 29)):
-                        windspeed_sentence = (":leaves: Matige wind, matige koelte: Takken bewegen, kleding flappert.")    
+                        windspeed_sentence = (":leaves: Matige wind, matige koelte: Takken bewegen, kleding flappert. ")    
                     elif ((averagewindspeeddag1>= 29) and (averagewindspeeddag1< 39)):
-                        windspeed_sentence = (":wind_blowing_face: Vrij krachtige, frisse bries: Matige langere golven, kleine bomen bewegen.")
+                        windspeed_sentence = (":wind_blowing_face: Vrij krachtige, frisse bries: Matige langere golven, kleine bomen bewegen. ")
                     elif ((averagewindspeeddag1>= 39) and (averagewindspeeddag1< 50)):
-                        windspeed_sentence = (":wind_blowing_face: Krachtige, stijve bries: Bomen bewegen, vlaggen staan strak.")    
+                        windspeed_sentence = (":wind_blowing_face: Krachtige, stijve bries: Bomen bewegen, vlaggen staan strak. ")    
                     elif ((averagewindspeeddag1>= 50) and (averagewindspeeddag1< 62)):
-                        windspeed_sentence = (":wind_blowing_face: Hard, harde wind: Matig grote golven, latig tegen wind inlopen.")
+                        windspeed_sentence = (":wind_blowing_face: Hard, harde wind: Matig grote golven, latig tegen wind inlopen. ")
                     elif ((averagewindspeeddag1>= 62) and (averagewindspeeddag1< 75)):
-                        windspeed_sentence = (":wind_blowing_face: Stormachtig: Grote golven, kammen beginnen te breken, kleine takken breken af.")             
+                        windspeed_sentence = (":wind_blowing_face: Stormachtig: Grote golven, kammen beginnen te breken, kleine takken breken af. ")             
                     elif ((averagewindspeeddag1>= 75) and (averagewindspeeddag1< 89)):
-                        windspeed_sentence = (":cloud_tornado: Storm: Hoge golven, golven rollen en kammen breken, veel stuifwater, takken breken.")
+                        windspeed_sentence = (":cloud_tornado: Storm: Hoge golven, golven rollen en kammen breken, veel stuifwater, takken breken. ")
                     elif ((averagewindspeeddag1>= 89) and (averagewindspeeddag1< 103)):
-                        windspeed_sentence = (":cloud_tornado: Zware storm: Zeer hoge golven, hele oppervlak is wit van stuifwater, bomen worden ontworteld.")    
+                        windspeed_sentence = (":cloud_tornado: Zware storm: Zeer hoge golven, hele oppervlak is wit van stuifwater, bomen worden ontworteld. ")    
                     elif ((averagewindspeeddag1>= 103) and (averagewindspeeddag1< 118)):
-                        windspeed_sentence = (":cloud_tornado: Zeer zware storm, orkaanachtig: Buitengewoon hoge golven, grote schade aan bossen/gebouwen.")
+                        windspeed_sentence = (":cloud_tornado: Zeer zware storm, orkaanachtig: Buitengewoon hoge golven, grote schade aan bossen/gebouwen. ")
                     elif averagewindspeeddag1 >= 118: 
-                        windspeed_sentence = (":cloud_tornado: AAAH! RUN BITCH< RUUUUN. Orkaan: Lucht gevuld met schuim en water, verwoestingen aan gebouwen en bossen, extreem hoge golven.")   
+                        windspeed_sentence = (":cloud_tornado: AAAH! RUN BITCH< RUUUUN. Orkaan: Lucht gevuld met schuim en water, verwoestingen aan gebouwen en bossen, extreem hoge golven. ")   
                         
                                         
             ##gemiddelde embed
-                    embedVar = discord.Embed(title="Weer-info voor morgen voor de stad: " +str (city_user_input), description="Je maakt gebruik van het premium plan!", color=color)
-                    embedVar.add_field(name="LET OP!", value=warning_weather_max, inline=False)            
-                    embedVar.add_field(name="Temperatuur min", value=mint + str (mintemp) + str ("℃"), inline=True) 
-                    embedVar.add_field(name="Temperatuur max", value=maxt + str (maxtemp) + str ("℃"), inline=True) 
-                    embedVar.add_field(name="Gemiddelde temperatuur ", value=at + str (round(averagetempdag1,1)) + str ("℃"), inline=False)
-                    embedVar.add_field(name="Gemiddelde gevoelstemperatuur ", value=aft + str (round(averagefeeltempdag1,1)) + str ("℃"), inline=False)
-                    embedVar.add_field(name="Gemiddelde wind", value=windspeed_sentence + str (round(averagewindspeeddag1,1)) + str ("Km/u"), inline=False)
-                    embedVar.set_image(url=ci)
-                    embedVar.add_field(name="Gemiddelde wolken:", value=AM, inline=False) 
-                    embedVar.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrisenormal), inline=True) 
-                    embedVar.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunsetnormal), inline=True) 
-                    embedVar.set_footer(text="By </Kelvin>",icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
-                    await m.channel.send(embed=embedVar)
+                    embed = disnake.Embed(title="Weer-info voor morgen voor de stad: " +str (stadnaam), description="Je maakt gebruik van het premium plan!", color=color)
+                    embed.add_field(name="LET OP!", value=warning_weather_max, inline=False)            
+                    embed.add_field(name="Temperatuur min", value=mint + str (mintemp) + str ("℃"), inline=True) 
+                    embed.add_field(name="Temperatuur max", value=maxt + str (maxtemp) + str ("℃"), inline=True) 
+                    embed.add_field(name="Gemiddelde temperatuur ", value=at + str (round(averagetempdag1,1)) + str ("℃"), inline=False)
+                    embed.add_field(name="Gemiddelde gevoelstemperatuur ", value=aft + str (round(averagefeeltempdag1,1)) + str ("℃"), inline=False)
+                    embed.add_field(name="Gemiddelde wind", value=windspeed_sentence + str (round(averagewindspeeddag1,1)) + str ("Km/u"), inline=False)
+                    embed.set_image(url=ci)
+                    embed.add_field(name="Gemiddelde wolken:", value=AM, inline=False) 
+                    embed.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrisenormal), inline=True) 
+                    embed.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunsetnormal), inline=True) 
+                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
+                    await inter.response.send_message(embed=embed)
+                    
+                    
+                    
                     
 
 
 
-                    # API info, URLS etc
-                    api_key = "API_KEY_HIER"
-                    today_forecast_url = "http://api.openweathermap.org/data/2.5/forecast?"
-                    city_name1 = ("Enschede")
+                    
+async def weather_NL_city_voorspelling(inter, stadnaam):
                     units = ("&units=metric")
-                    
-    elif "voorspelling" in weather_time_user_input:
-                    api_key = "API_KEY_HIER"
+                    api_key = "API_KEY_HERE"
                     base_url = "http://api.openweathermap.org/data/2.5/forecast?"
-                    complete_url = base_url + "appid=" + api_key + "&q=" + city_user_input
+                    complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam + units
                     response = requests.get(complete_url)
                     data = response.json()        
-                    print(data)
+
+                    #datums
+                    datums0 = data['list'][0]['dt_txt']
+                    datums1 = data['list'][1]['dt_txt']
+                    datums2 = data['list'][2]['dt_txt']
+                    datums3 = data['list'][3]['dt_txt']
+                    datums4 = data['list'][4]['dt_txt']
+                    datums5 = data['list'][5]['dt_txt']
+                    datums6 = data['list'][6]['dt_txt']
+                    datums7 = data['list'][7]['dt_txt']
+                    #temp
+                    temp0 = data['list'][0]['main']['temp']
+                    temp1 = data['list'][1]['main']['temp']
+                    temp2 = data['list'][2]['main']['temp']
+                    temp3 = data['list'][3]['main']['temp']
+                    temp4 = data['list'][4]['main']['temp']
+                    temp5 = data['list'][5]['main']['temp']
+                    temp6 = data['list'][6]['main']['temp']
+                    temp7 = data['list'][7]['main']['temp']
+                    #feel_temp
+                    feels_temp0 = data['list'][0]['main']['feels_like']
+                    feels_temp1 = data['list'][1]['main']['feels_like']
+                    feels_temp2 = data['list'][2]['main']['feels_like']
+                    feels_temp3 = data['list'][3]['main']['feels_like']
+                    feels_temp4 = data['list'][4]['main']['feels_like']
+                    feels_temp5 = data['list'][5]['main']['feels_like']
+                    feels_temp6 = data['list'][6]['main']['feels_like']
+                    feels_temp7 = data['list'][7]['main']['feels_like']
+                    
+                    #Windsnelheid
+                    wind0 = data['list'][0]['wind']['speed']
+                    wind1 = data['list'][1]['wind']['speed'] 
+                    wind2 = data['list'][2]['wind']['speed'] 
+                    wind3 = data['list'][3]['wind']['speed']
+                    wind4 = data['list'][4]['wind']['speed'] 
+                    wind5 = data['list'][5]['wind']['speed'] 
+                    wind6 = data['list'][6]['wind']['speed'] 
+                    wind7 = data['list'][7]['wind']['speed'] 
+                                        
+                    #lucht-wolken enzo
+                    sub_weather_condition0 = data['list'][0]['weather'][0]['main']
+                    sub_weather_condition1 = data['list'][1]['weather'][0]['main']
+                    sub_weather_condition2 = data['list'][2]['weather'][0]['main']
+                    sub_weather_condition3 = data['list'][3]['weather'][0]['main']
+                    sub_weather_condition4 = data['list'][4]['weather'][0]['main']
+                    sub_weather_condition5 = data['list'][5]['weather'][0]['main']
+                    sub_weather_condition6 = data['list'][6]['weather'][0]['main']
+                    sub_weather_condition7 = data['list'][7]['weather'][0]['main']
+
+                    #icoon
+                    icon0 = data['list'][0]['weather'][0]['icon']
+                    icon1 = data['list'][1]['weather'][0]['icon']
+                    icon2 = data['list'][2]['weather'][0]['icon']
+                    icon3 = data['list'][3]['weather'][0]['icon']
+                    icon4 = data['list'][4]['weather'][0]['icon']
+                    icon5 = data['list'][5]['weather'][0]['icon']
+                    icon6 = data['list'][6]['weather'][0]['icon']
+                    icon7 = data['list'][7]['weather'][0]['icon']
+                    
+                    
+                    datums0_formatted = datums0.split(" ")[1][0:5] #[0:5] pakt de 1e 5 karakters
+                    datums1_formatted = datums1.split(" ")[1][0:5]
+                    datums2_formatted = datums2.split(" ")[1][0:5]
+                    datums3_formatted = datums3.split(" ")[1][0:5]
+                    datums4_formatted = datums4.split(" ")[1][0:5]
+                    datums5_formatted = datums5.split(" ")[1][0:5]
+                    datums6_formatted = datums6.split(" ")[1][0:5]
+                    datums7_formatted = datums7.split(" ")[1][0:5]
+                    
+                   
+                
+                    y_temp = [temp0, temp1, temp2, temp3, temp4, temp5, temp6, temp7]
+                    x_time = [datums0_formatted, datums1_formatted, datums2_formatted, datums3_formatted, datums4_formatted, datums5_formatted, datums6_formatted, datums7_formatted]
+                    axis_y_wind= [wind0, wind1, wind2, wind3, wind4, wind5, wind6, wind7]
                     
 
-    else: 
-        await m.channel.send("Er ging iets mis! Foutcode: Fout_command")
 
-async def send_help_embed(m):
-    embedVar = discord.Embed(title="WeerBot help menu! (Premium versie.)", description="Voor de community, door de community!", color=0x00ff00)
-    embedVar.add_field(name="!weer.help", value="Dit laat dit bericht zien.", inline=False)   
-    embedVar.add_field(name="!standaard.stad stadnaam", value="Stel hiermee je standaard stad in voor het command !weer.", inline=False)   
-    embedVar.add_field(name="!weer", value="Dit laat je ingestelde weer zien.", inline=False)   
-    embedVar.add_field(name="!weer stadnaam", value="Dit laat het weer in de opgegeven stad zien.", inline=False)            
-    embedVar.add_field(name="!weer stadnaam morgen", value="Dit laat het weer voor morgen in de opgegeven stad zien.", inline=False)            
-    embedVar.set_footer(text="By </Kelvin>",icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
-    await m.channel.send(embed=embedVar)
+
+                    x = x_time
+                    y1 = y_temp
+                    y2 = axis_y_wind
+                    ax = plt.axes()
+                    ax.set_facecolor("#282828")
+                    plt.figure(facecolor='#282828')
+                    ax = plt.axes()
+                    ax.set_facecolor("#282828")
+  
+                    plt.plot(x, y1, label="Temperatuur", color="Orange" )
+                    plt.plot(x, y2, label="Wind-snelheid", color="deepskyblue")
+                    plt.legend(loc="upper right")
+                    plt.xlabel("Tijd", color="Black")
+                    plt.ylabel("Wind-snelheid & temperatuur", color="Black")
+                    plt.savefig('./defaulttemp_char.png')
+
+                    
+                    
+                    embed = disnake.Embed(title="Temperatuur en windsnelheid", description="Info geleverd door OpenWeatherAPI. Premium versie!", color=0x4793FF)
+                    file = disnake.File("./defaulttemp_char.png", filename="image2.png")
+                    embed.set_image(url="attachment://image2.png")
+                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://kelvindereus.nl/CustomCPULOGO.png")        
+                    await inter.response.send_message(file=file, embed=embed)     
+                    os.remove("./defaulttemp_char.png")
+
     
+
+
+async def send_help_embed(inter):
+    embed = disnake.Embed(title="WeerBot help menu! (Premium versie.)", description="Voor de community, door de community!", color=0x4793FF)
+    embed.add_field(name="/weer_help", value="Dit laat dit bericht zien.", inline=False)   
+    embed.add_field(name="/weer_set_standaard_stad", value="Stel hiermee je standaard stad in voor het command !weer.", inline=False)   
+    embed.add_field(name="/weer", value="Dit laat je vooraf ingestelde weer zien.", inline=False)   
+    embed.add_field(name="/weer_nu", value="Dit laat het weer in de opgegeven stad zien.", inline=False)            
+    embed.add_field(name="/weer_morgen", value="Dit laat het weer voor morgen in de opgegeven stad zien.", inline=False)            
+    embed.add_field(name="/weer_voorspelling", value="Dit laat een grafiek zien met de weersvoorspelling!", inline=False)   
+
+    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
+    await inter.response.send_message(embed=embed)
     
-        
