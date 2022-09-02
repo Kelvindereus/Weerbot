@@ -8,10 +8,18 @@ import premium_plan_pwa
 import time 
 from threading import Thread 
 
+print("""
+ ___  ____   ______   _______     
+|_  ||_  _| |_   _ `.|_   __ \    
+  | |_/ /     | | `. \ | |__) |   
+  |  __'.     | |  | | |  __ /    
+ _| |  \ \_  _| |_.' /_| |  \ \_  
+|____||____||______.'|____| |___| 
+                                  
+""")
+
 list_premium_servers = [1002208148930691172, 444581384745648146]
 bot = commands.Bot("!") 
-from threading import Thread 
-import time 
  
 class EverySoOften(Thread): 
     def __init__(self, seconds):   
