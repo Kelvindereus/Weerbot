@@ -41,23 +41,7 @@ t = EverySoOften(30)
 t.start() 
     
      
-class EverySoOften(Thread): 
-    def __init__(self, seconds):   
-        super().__init__()  
-        self.delay = seconds 
-        self.is_done = False 
-    def done(self): 
-        self.is_done = True 
-    def run(self): 
-        while not self.is_done: 
-            time.sleep(self.delay) 
-            global cursor
-            global db
-            server_id = cursor.execute("UPDATE weerbot_rate_limiter set server_command_count = '0'")
-            db.commit()            
-        print('thread done') 
-t = EverySoOften(60) 
-t.start()      
+
      
 
 @bot.event
