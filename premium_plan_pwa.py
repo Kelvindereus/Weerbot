@@ -6,7 +6,6 @@ from datetime import datetime
 from statistics import mode
 import mysql.connector
 from threading import Timer
-import matplotlib.pyplot as plt
 
 import os
 import time
@@ -524,120 +523,6 @@ async def weather_NL_city_tomorrow(inter, stadnaam):
                     
                     
 
-
-
-                    
-async def weather_NL_city_voorspelling(inter, stadnaam):
-                    units = ("&units=metric")
-                    api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
-                    base_url = "http://api.openweathermap.org/data/2.5/forecast?"
-                    complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam + units
-                    response = requests.get(complete_url)
-                    data = response.json()        
-
-                    #datums
-                    datums0 = data['list'][0]['dt_txt']
-                    datums1 = data['list'][1]['dt_txt']
-                    datums2 = data['list'][2]['dt_txt']
-                    datums3 = data['list'][3]['dt_txt']
-                    datums4 = data['list'][4]['dt_txt']
-                    datums5 = data['list'][5]['dt_txt']
-                    datums6 = data['list'][6]['dt_txt']
-                    datums7 = data['list'][7]['dt_txt']
-                    #temp
-                    temp0 = data['list'][0]['main']['temp']
-                    temp1 = data['list'][1]['main']['temp']
-                    temp2 = data['list'][2]['main']['temp']
-                    temp3 = data['list'][3]['main']['temp']
-                    temp4 = data['list'][4]['main']['temp']
-                    temp5 = data['list'][5]['main']['temp']
-                    temp6 = data['list'][6]['main']['temp']
-                    temp7 = data['list'][7]['main']['temp']
-                    #feel_temp
-                    feels_temp0 = data['list'][0]['main']['feels_like']
-                    feels_temp1 = data['list'][1]['main']['feels_like']
-                    feels_temp2 = data['list'][2]['main']['feels_like']
-                    feels_temp3 = data['list'][3]['main']['feels_like']
-                    feels_temp4 = data['list'][4]['main']['feels_like']
-                    feels_temp5 = data['list'][5]['main']['feels_like']
-                    feels_temp6 = data['list'][6]['main']['feels_like']
-                    feels_temp7 = data['list'][7]['main']['feels_like']
-                    
-                    #Windsnelheid
-                    wind0 = data['list'][0]['wind']['speed']
-                    wind1 = data['list'][1]['wind']['speed'] 
-                    wind2 = data['list'][2]['wind']['speed'] 
-                    wind3 = data['list'][3]['wind']['speed']
-                    wind4 = data['list'][4]['wind']['speed'] 
-                    wind5 = data['list'][5]['wind']['speed'] 
-                    wind6 = data['list'][6]['wind']['speed'] 
-                    wind7 = data['list'][7]['wind']['speed'] 
-                                        
-                    #lucht-wolken enzo
-                    sub_weather_condition0 = data['list'][0]['weather'][0]['main']
-                    sub_weather_condition1 = data['list'][1]['weather'][0]['main']
-                    sub_weather_condition2 = data['list'][2]['weather'][0]['main']
-                    sub_weather_condition3 = data['list'][3]['weather'][0]['main']
-                    sub_weather_condition4 = data['list'][4]['weather'][0]['main']
-                    sub_weather_condition5 = data['list'][5]['weather'][0]['main']
-                    sub_weather_condition6 = data['list'][6]['weather'][0]['main']
-                    sub_weather_condition7 = data['list'][7]['weather'][0]['main']
-
-                    #icoon
-                    icon0 = data['list'][0]['weather'][0]['icon']
-                    icon1 = data['list'][1]['weather'][0]['icon']
-                    icon2 = data['list'][2]['weather'][0]['icon']
-                    icon3 = data['list'][3]['weather'][0]['icon']
-                    icon4 = data['list'][4]['weather'][0]['icon']
-                    icon5 = data['list'][5]['weather'][0]['icon']
-                    icon6 = data['list'][6]['weather'][0]['icon']
-                    icon7 = data['list'][7]['weather'][0]['icon']
-                    
-                    
-                    datums0_formatted = datums0.split(" ")[1][0:5] #[0:5] pakt de 1e 5 karakters
-                    datums1_formatted = datums1.split(" ")[1][0:5]
-                    datums2_formatted = datums2.split(" ")[1][0:5]
-                    datums3_formatted = datums3.split(" ")[1][0:5]
-                    datums4_formatted = datums4.split(" ")[1][0:5]
-                    datums5_formatted = datums5.split(" ")[1][0:5]
-                    datums6_formatted = datums6.split(" ")[1][0:5]
-                    datums7_formatted = datums7.split(" ")[1][0:5]
-                    
-                   
-                
-                    y_temp = [temp0, temp1, temp2, temp3, temp4, temp5, temp6, temp7]
-                    x_time = [datums0_formatted, datums1_formatted, datums2_formatted, datums3_formatted, datums4_formatted, datums5_formatted, datums6_formatted, datums7_formatted]
-                    axis_y_wind= [wind0, wind1, wind2, wind3, wind4, wind5, wind6, wind7]
-                    
-
-
-
-                    x = x_time
-                    y1 = y_temp
-                    y2 = axis_y_wind
-                    ax = plt.axes()
-                    ax.set_facecolor("#282828")
-                    plt.figure(facecolor='#282828')
-                    ax = plt.axes()
-                    ax.set_facecolor("#282828")
-  
-                    plt.plot(x, y1, label="Temperatuur", color="Orange" )
-                    plt.plot(x, y2, label="Wind-snelheid", color="deepskyblue")
-                    plt.legend(loc="upper right")
-                    plt.xlabel("Tijd", color="Black")
-                    plt.ylabel("Wind-snelheid & temperatuur", color="Black")
-                    plt.savefig('./defaulttemp_char.png')
-
-                    
-                    
-                    embed = disnake.Embed(title="Temperatuur en windsnelheid", description="Info geleverd door OpenWeatherAPI. Premium versie!", color=0x4793FF)
-                    file = disnake.File("./defaulttemp_char.png", filename="image2.png")
-                    embed.set_image(url="attachment://image2.png")
-                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://itkelvin.nl/CustomCPULOGO.png")        
-                    await inter.response.send_message(file=file, embed=embed)     
-                    os.remove("./defaulttemp_char.png")
-
-    
 
 
 async def send_help_embed(inter):

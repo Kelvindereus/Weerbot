@@ -99,20 +99,6 @@ async def weer_morgen(inter, stadnaam: str):
         else:
             await default_plan_pwa.weather_NL_city_tomorrow(inter, stadnaam)
 
-@bot.slash_command(description="De weersvoorspelling voor de komende uren!!")
-@commands.cooldown(1, 3, commands.BucketType.user)
-async def weer_voorspelling(inter, stadnaam: str):
-        server_id_from_m = inter.guild.id
-        if server_id_from_m in list_premium_servers:
-            await premium_plan_pwa.weather_NL_city_voorspelling(inter, stadnaam)
-        else:
-            await default_plan_pwa.weather_NL_city_voorspelling(inter, stadnaam)
-
-
-
-
-
-
 
 # Database stuff, defining enzo
 async def get_default_city_db(inter, author_id_from_m, server_id_from_m):
