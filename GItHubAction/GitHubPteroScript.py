@@ -20,3 +20,4 @@ srv_id = my_servers[5]["attributes"]["identifier"]
 
 # Rebooting the individual server
 api.client.servers.send_power_action(srv_id, "restart")
+
