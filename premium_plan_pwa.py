@@ -20,7 +20,7 @@ version_nummer =  ("2.0")
               
 # Weerbot NL General
 async def weather_NL_general(inter, result_city):
-        api_key = "API_KEY_HERE"
+        api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + str(result_city) + units
@@ -59,41 +59,41 @@ async def weather_NL_general(inter, result_city):
             else:
                 d = (":droplet: Het is best wel droog in de lucht!")
             if '01d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/sunedited.png")
+                ci = ("https://itkelvin.nl/images/weer/sunedited.png")
             elif '01n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/01n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/01n@2x.png")
             elif '02d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/02d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/02d@2x.png")
             elif '02n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/02n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/02n@2x.png")
             elif '03d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/03d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/03d@2x.png")
             elif '03n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/03n@2x.png")      
+                ci = ("https://itkelvin.nl/images/weer/03n@2x.png")      
             elif '04d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/04d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/04d@2x.png")
             elif '04n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/04n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/04n@2x.png")
             elif '09d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/09d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/09d@2x.png")
             elif '09n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/09n@2x.png")                            
+                ci = ("https://itkelvin.nl/images/weer/09n@2x.png")                            
             elif '10d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/10d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/10d@2x.png")
             elif '10n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/10n@2x.png")      
+                ci = ("https://itkelvin.nl/images/weer/10n@2x.png")      
             elif '11d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/11d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/11d@2x.png")
             elif '11n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/11n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/11n@2x.png")
             elif '13d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/13d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/13d@2x.png")
             elif '13n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/13n@2x.png")                   
+                ci = ("https://itkelvin.nl/images/weer/13n@2x.png")                   
             elif '50d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/50d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/50d@2x.png")
             elif '50n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/50n@2x.png")          
+                ci = ("https://itkelvin.nl/images/weer/50n@2x.png")          
 
                 
             if current_temp < 0:
@@ -152,7 +152,7 @@ async def weather_NL_general(inter, result_city):
 
             embed.set_footer(
                 text="By </Kelvin>. Versie: " + str(version_nummer),
-                icon_url="https://kelvindereus.nl/CustomCPULOGO.png",
+                icon_url="https://itkelvin.nl/CustomCPULOGO.png",
             )
             embed.add_field(name="Temperatuur", value=x + str (" ") + str (round(current_temp,1)) + str ("℃"), inline=False)    
             embed.add_field(name="Windsnelheid", value=windspeed_sentence + str (round(windspeed, 2)) + str ("Km/u"), inline=False)   
@@ -167,7 +167,7 @@ async def weather_NL_general(inter, result_city):
             
 #DEFINING
 async def weather_NL_city(inter, stadnaam):
-        api_key = "API_KEY_HERE"
+        api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam + units
@@ -206,41 +206,41 @@ async def weather_NL_city(inter, stadnaam):
             else:
                 d = (":droplet: Het is best wel droog in de lucht!")
             if '01d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/sunedited.png")
+                ci = ("https://itkelvin.nl/images/weer/sunedited.png")
             elif '01n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/01n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/01n@2x.png")
             elif '02d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/02d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/02d@2x.png")
             elif '02n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/02n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/02n@2x.png")
             elif '03d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/03d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/03d@2x.png")
             elif '03n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/03n@2x.png")      
+                ci = ("https://itkelvin.nl/images/weer/03n@2x.png")      
             elif '04d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/04d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/04d@2x.png")
             elif '04n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/04n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/04n@2x.png")
             elif '09d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/09d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/09d@2x.png")
             elif '09n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/09n@2x.png")                            
+                ci = ("https://itkelvin.nl/images/weer/09n@2x.png")                            
             elif '10d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/10d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/10d@2x.png")
             elif '10n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/10n@2x.png")      
+                ci = ("https://itkelvin.nl/images/weer/10n@2x.png")      
             elif '11d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/11d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/11d@2x.png")
             elif '11n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/11n@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/11n@2x.png")
             elif '13d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/13d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/13d@2x.png")
             elif '13n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/13n@2x.png")                   
+                ci = ("https://itkelvin.nl/images/weer/13n@2x.png")                   
             elif '50d' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/50d@2x.png")
+                ci = ("https://itkelvin.nl/images/weer/50d@2x.png")
             elif '50n' == cloud_icon:
-                ci = ("https://kelvindereus.nl/images/weer/50n@2x.png")          
+                ci = ("https://itkelvin.nl/images/weer/50n@2x.png")          
 
                 
             if current_temp < 0:
@@ -301,7 +301,7 @@ async def weather_NL_city(inter, stadnaam):
 
             embed.set_footer(
                 text="By </Kelvin>. Versie: " + str(version_nummer),
-                icon_url="https://kelvindereus.nl/CustomCPULOGO.png",
+                icon_url="https://itkelvin.nl/CustomCPULOGO.png",
             )
             embed.add_field(name="Temperatuur", value=x + str (" ") + str (round(current_temp,1)) + str ("℃"), inline=False)    
             embed.add_field(name="Windsnelheid", value=windspeed_sentence + str (round(windspeed, 2)) + str ("Km/u"), inline=False)    
@@ -317,7 +317,7 @@ async def weather_NL_city(inter, stadnaam):
 
 
 async def weather_NL_city_tomorrow(inter, stadnaam):
-                api_key = "API_KEY_HERE"
+                api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
                 base_url = "http://api.openweathermap.org/data/2.5/forecast?"
                 complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam
                 response = requests.get(complete_url)
@@ -427,16 +427,16 @@ async def weather_NL_city_tomorrow(inter, stadnaam):
 
                     if "Clouds" == averagemain:
                         AM = (":cloud: Bewolking verwacht!")
-                        ci =("https://kelvindereus.nl/images/weer/03d@2x.png")
+                        ci =("https://itkelvin.nl/images/weer/03d@2x.png")
                     elif "Clear" == averagemain:
                         AM = (":white_sun_small_cloud:  Er komt geen wolkje aan de lucht")
-                        ci = ("https://kelvindereus.nl/images/weer/sunedited.png")
+                        ci = ("https://itkelvin.nl/images/weer/sunedited.png")
                     elif "Rain" == averagemain:
                         AM = (":cloud_rain: Regen verwacht!")
-                        ci = ("https://kelvindereus.nl/images/weer/09d@2x.png")
+                        ci = ("https://itkelvin.nl/images/weer/09d@2x.png")
                     elif "Thunderstorm" == averagemain:
                         AM = (":cloud_lightning: Onweer verwacht!")
-                        ci = ("https://kelvindereus.nl/images/weer/11d@2x.png")
+                        ci = ("https://itkelvin.nl/images/weer/11d@2x.png")
 
 
                     if mintemp < 0:
@@ -517,7 +517,7 @@ async def weather_NL_city_tomorrow(inter, stadnaam):
                     embed.add_field(name="Gemiddelde wolken:", value=AM, inline=False) 
                     embed.add_field(name="Zonsopkomst", value=":white_sun_small_cloud: " + str (sunrisenormal), inline=True) 
                     embed.add_field(name="Zonsondergang", value=":white_sun_cloud: " + str (sunsetnormal), inline=True) 
-                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
+                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://itkelvin.nl/CustomCPULOGO.png")
                     await inter.response.send_message(embed=embed)
                     
                     
@@ -529,7 +529,7 @@ async def weather_NL_city_tomorrow(inter, stadnaam):
                     
 async def weather_NL_city_voorspelling(inter, stadnaam):
                     units = ("&units=metric")
-                    api_key = "API_KEY_HERE"
+                    api_key = "a8a15ef8a0ee24d6782ee2cddea5afae"
                     base_url = "http://api.openweathermap.org/data/2.5/forecast?"
                     complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam + units
                     response = requests.get(complete_url)
@@ -633,7 +633,7 @@ async def weather_NL_city_voorspelling(inter, stadnaam):
                     embed = disnake.Embed(title="Temperatuur en windsnelheid", description="Info geleverd door OpenWeatherAPI. Premium versie!", color=0x4793FF)
                     file = disnake.File("./defaulttemp_char.png", filename="image2.png")
                     embed.set_image(url="attachment://image2.png")
-                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://kelvindereus.nl/CustomCPULOGO.png")        
+                    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://itkelvin.nl/CustomCPULOGO.png")        
                     await inter.response.send_message(file=file, embed=embed)     
                     os.remove("./defaulttemp_char.png")
 
@@ -649,6 +649,6 @@ async def send_help_embed(inter):
     embed.add_field(name="/weer_morgen", value="Dit laat het weer voor morgen in de opgegeven stad zien.", inline=False)            
     embed.add_field(name="/weer_voorspelling", value="Dit laat een grafiek zien met de weersvoorspelling!", inline=False)   
 
-    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://kelvindereus.nl/CustomCPULOGO.png")
+    embed.set_footer(text="By </Kelvin>. Versie: " + str(version_nummer),icon_url="https://itkelvin.nl/CustomCPULOGO.png")
     await inter.response.send_message(embed=embed)
     
