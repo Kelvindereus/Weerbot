@@ -146,5 +146,5 @@ async def default_city_users(inter, user_id, user_city):
     await inter.response.send_message("Je hebt je standaard stad succesvol gewijzigd naar: {}. Gebruik /weer om er gebruik van te maken.".format(user_city))
     
             
-bot.run("MTAwNzc2Njk0MzU4NTAyNjE0MQ.G6bm4J.ny-qSug2MbIWhnpsWLhyMCTqBJk8Z8YzJh3U1M")
+bot.run(secure.bot_token)
 
