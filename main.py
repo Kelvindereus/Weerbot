@@ -2,21 +2,15 @@ from unicodedata import name
 import disnake
 from disnake.ext import commands
 import mysql.connector
-#mijn modules:
+
 import default_plan_pwa
 import premium_plan_pwa
 import time 
 from threading import Thread 
-
-print("""
- ___  ____   ______   _______     
-|_  ||_  _| |_   _ `.|_   __ \    
-  | |_/ /     | | `. \ | |__) |   
-  |  __'.     | |  | | |  __ /    
- _| |  \ \_  _| |_.' /_| |  \ \_  
-|____||____||______.'|____| |___| 
-                                  
-""")
+# Getting ENV
+import os
+import secrets
+from secrets import secure
 
 list_premium_servers = [1002208148930691172, 444581384745648146]
 bot = commands.Bot("!") 
@@ -39,10 +33,7 @@ class EverySoOften(Thread):
         print('thread done') 
 t = EverySoOften(30) 
 t.start() 
-    
-     
 
-     
 
 @bot.event
 async def on_ready():
@@ -50,14 +41,15 @@ async def on_ready():
     global cursor
     global db
     db = mysql.connector.connect(
-    host="10.10.10.20",
-    user="UsernameHere",
-    password="PasswordHere",
-    database="weerbot",
+    host="172.17.0.1",
+    user= secure.database_username,
+    password= secure.database_password,
+    database= "weerbot",
     auth_plugin="mysql_native_password"
     )
     cursor = db.cursor(buffered=True)
     print("The bot is ready!")
+
 
 @bot.event
 async def member_count_channel():
@@ -66,50 +58,50 @@ async def member_count_channel():
     await bot.edit_channel(welchannel, f"members: " + str(server_count))
     
 
-@bot.slash_command(description="Alle commands voor de Weerbot!")
+@bot.slash_command(description="dev_Alle commands voor de Weerbot!")
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def weer_help(inter):
+async def dev_weer_help(inter):
         server_id_from_m = inter.guild.id
         if server_id_from_m in list_premium_servers:
             await premium_plan_pwa.send_help_embed(inter)
         else:
             await default_plan_pwa.send_help_embed(inter)
 
-@bot.slash_command(description="Weer")
+@bot.slash_command(description="dev_Weer")
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def weer(inter):
+async def dev_weer(inter):
         server_id_from_m = inter.guild.id
         author_id_from_m = inter.author.id
         await get_default_city_db(inter, author_id_from_m, server_id_from_m)
             
-@bot.slash_command(description="Weer stel je default stad in!")
+@bot.slash_command(description="dev_Weer stel je default stad in!")
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def weer_set_standaard_stad(inter, stad: str):
+async def dev_weer_set_standaard_stad(inter, stad: str):
         user_id = inter.author.id
         user_city =  stad
         await default_city_users(inter, user_id, user_city)   
 
-@bot.slash_command(description="Het weer voor nu!")
+@bot.slash_command(description="dev_Het weer voor nu!")
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def weer_nu(inter, stadnaam: str):
+async def dev_weer_nu(inter, stadnaam: str):
         server_id_from_m = inter.guild.id
         if server_id_from_m in list_premium_servers:
             await premium_plan_pwa.weather_NL_city(inter, stadnaam)
         else:
             await default_plan_pwa.weather_NL_city(inter, stadnaam)
 
-@bot.slash_command(description="Het weer voor morgen!")
+@bot.slash_command(description="dev_Het weer voor morgen!")
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def weer_morgen(inter, stadnaam: str):
+async def dev_weer_morgen(inter, stadnaam: str):
         server_id_from_m = inter.guild.id
         if server_id_from_m in list_premium_servers:
             await premium_plan_pwa.weather_NL_city_tomorrow(inter, stadnaam)
         else:
             await default_plan_pwa.weather_NL_city_tomorrow(inter, stadnaam)
-
-@bot.slash_command(description="De weersvoorspelling voor de komende uren!!")
+"
+@bot.slash_command(description="dev_"De weersvoorspelling voor de komende uren!!")
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def weer_voorspelling(inter, stadnaam: str):
+async def dev_weer_voorspelling(inter, stadnaam: str):
         server_id_from_m = inter.guild.id
         if server_id_from_m in list_premium_servers:
             await premium_plan_pwa.weather_NL_city_voorspelling(inter, stadnaam)
@@ -154,5 +146,5 @@ async def default_city_users(inter, user_id, user_city):
     await inter.response.send_message("Je hebt je standaard stad succesvol gewijzigd naar: {}. Gebruik /weer om er gebruik van te maken.".format(user_city))
     
             
-bot.run("")
+bot.run(secure.bot_token)
 
