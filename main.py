@@ -43,7 +43,7 @@ async def on_ready():
     global db
     db = mysql.connector.connect(
     host="172.17.0.1",
-    user=secure.dadatabase_username,
+    user=secure.database_username,
     password=secure.database_password,
     database="weerbot",
     auth_plugin="mysql_native_password"
