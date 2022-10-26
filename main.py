@@ -8,9 +8,9 @@ import premium_plan_pwa
 import time 
 from threading import Thread 
 # Getting ENV
-from dotenv import load_dotenv
 import os
-load_dotenv()
+import secrets
+from secrets import secure
 
 list_premium_servers = [1002208148930691172, 444581384745648146]
 bot = commands.Bot("!") 
@@ -41,10 +41,10 @@ async def on_ready():
     global cursor
     global db
     db = mysql.connector.connect(
-    host="10.10.10.20",
-    user= os.getenv("database_username"),
-    password= os.getenv("database_password"),
-    database= "dev-weerbot",
+    host="172.17.0.1",
+    user= secure.database_username,
+    password= secure.database_password,
+    database= "weerbot",
     auth_plugin="mysql_native_password"
     )
     cursor = db.cursor(buffered=True)
