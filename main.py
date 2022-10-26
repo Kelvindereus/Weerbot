@@ -2,7 +2,7 @@ from unicodedata import name
 import disnake
 from disnake.ext import commands
 import mysql.connector
-#mijn modules:
+#mijn modules
 import default_plan_pwa
 import premium_plan_pwa
 import time 
