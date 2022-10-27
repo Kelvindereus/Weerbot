@@ -51,13 +51,18 @@ async def on_ready():
     cursor = db.cursor(buffered=True)
     print("The bot is ready!")
 
+    activeServers = bot.guilds
+    for guild in activeServers:
+        print(guild.name)
+    print(str(len(bot.guilds)))
+
 @bot.event
 async def member_count_channel():
     welchannel = bot.get_channel("1002208417458442350")
     server_count = str(len(bot.guilds))    
     await bot.edit_channel(welchannel, f"members: " + str(server_count))
     
-
+    
 @bot.slash_command(description="Alle commands voor de Weerbot!")
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def weer_help(inter):
