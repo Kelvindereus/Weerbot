@@ -56,6 +56,7 @@ async def on_ready():
         print(guild.name)
     print(str(len(bot.guilds)))
 
+
 @bot.event
 async def member_count_channel():
     welchannel = bot.get_channel("1002208417458442350")
