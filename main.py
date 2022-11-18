@@ -45,7 +45,7 @@ async def on_ready():
     host=secure.database_ip,
     user=secure.database_username,
     password=secure.database_password,
-    database=secure.",
+    database=secure.database_name,
     auth_plugin="mysql_native_password"
     )
     cursor = db.cursor(buffered=True)
@@ -55,6 +55,7 @@ async def on_ready():
     for guild in activeServers:
         print(guild.name)
     print(str(len(bot.guilds)))
+
 
 @bot.event
 async def member_count_channel():
