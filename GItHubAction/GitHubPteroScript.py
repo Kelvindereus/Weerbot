@@ -16,5 +16,9 @@ api = PterodactylClient(gamemanager_url, gamemanager_client_password)
 # Assigning server ID
 SERVER_ID = "d431d685"
 
+# Removing PYcache from instance on Pterodactyl
+api.client.servers.files.delete_files(SERVER_ID, "/__pycache__")
+
+
 # Rebooting the individual server
 api.client.servers.send_power_action(SERVER_ID, "restart")

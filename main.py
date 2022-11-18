@@ -45,7 +45,7 @@ async def on_ready():
     host=secure.database_ip,
     user=secure.database_username,
     password=secure.database_password,
-    database=secure.",
+    database=secure.database_name",
     auth_plugin="mysql_native_password"
     )
     cursor = db.cursor(buffered=True)
