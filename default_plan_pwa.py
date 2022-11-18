@@ -6,6 +6,7 @@ from datetime import datetime
 from statistics import mode
 from threading import Timer
 import os
+from secrets import secure
 
 version_nummer =  ("2.0")
 
@@ -13,7 +14,7 @@ version_nummer =  ("2.0")
               
 # Weerbot NL General
 async def weather_NL_general(inter, result_city):
-        api_key = "API_KEY_HERE"
+        api_key = secure.API_KEY_OWP
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + str(result_city) + units
@@ -159,7 +160,7 @@ async def weather_NL_general(inter, result_city):
 
 #DEFINING
 async def weather_NL_city(inter, stadnaam):
-        api_key = "API_KEY_HERE"
+        api_key = secure.API_KEY_OWP
         base_url = "http://api.openweathermap.org/data/2.5/weather?"
         units = ("&units=metric")
         complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam + units
@@ -323,7 +324,7 @@ async def weather_NL_city(inter, stadnaam):
 
 
 async def weather_NL_city_tomorrow(inter, stadnaam):
-                api_key = "API_KEY_HERE"
+                api_key = secure.API_KEY_OWP
                 base_url = "http://api.openweathermap.org/data/2.5/forecast?"
                 complete_url = base_url + "appid=" + api_key + "&q=" + stadnaam
                 response = requests.get(complete_url)
